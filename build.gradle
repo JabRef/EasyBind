@@ -12,12 +12,12 @@ repositories {
     jcenter()
 }
 
-group = 'com.tobiasdiez'
+group = 'org.jabref'
 version = '2.2.1-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-sourceCompatibility = JavaVersion.VERSION_1_9
-targetCompatibility = JavaVersion.VERSION_1_9
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 // Ensure Java 8 compatibility while providing proper module description
 // See https://github.com/java9-modularity/gradle-modules-plugin#separate-compilation-of-module-infojava
 //modularity.mixedJavaRelease 8
