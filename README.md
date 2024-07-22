@@ -276,7 +276,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.tobiasdiez', name: 'easybind', version: '2.2.1-SNAPSHOT'
+    compile group: 'org.jabref', name: 'easybind', version: '2.2.1-SNAPSHOT'
 }
 ```
 
@@ -285,7 +285,7 @@ dependencies {
 ```scala
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-libraryDependencies += "com.tobiasdiez" % "easybind" % "2.2.1-SNAPSHOT"
+libraryDependencies += "org.jabref" % "easybind" % "2.2.1-SNAPSHOT"
 ```
 
 #### Manual download
