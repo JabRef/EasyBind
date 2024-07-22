@@ -2,26 +2,24 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
-    id 'org.hibernate.build.maven-repo-auth' version '3.0.3'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id "io.github.gradle-nexus.publish-plugin" version "2.0.0"
     id 'org.javamodularity.moduleplugin' version '1.8.15'
-    id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
-repositories {
-    jcenter()
-}
 
-group = 'com.tobiasdiez'
+group = 'org.jabref'
 version = '2.2.1-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-sourceCompatibility = JavaVersion.VERSION_1_9
-targetCompatibility = JavaVersion.VERSION_1_9
-// Ensure Java 8 compatibility while providing proper module description
-// See https://github.com/java9-modularity/gradle-modules-plugin#separate-compilation-of-module-infojava
-//modularity.mixedJavaRelease 8
-//modularity.standardJavaRelease 9
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
@@ -32,9 +30,12 @@ java {
     withJavadocJar()
     withSourcesJar()
 }
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
 
 javafx {
-    version = "19"
+    version = "20"
     modules = ['javafx.base']
 }
 
@@ -55,7 +56,19 @@ publishing {
                         distribution = 'repo'
                     }
                 }
+
+
                 developers {
+                    developer {
+                        id = 'siedlerchr'
+                        name = 'Christoph Schwentker'
+                    }
+
+                    developer {
+                        id = 'koppor'
+                        name = 'Oliver Kopp'
+                    }
+
                     developer {
                         id = 'tobiasdiez'
                         name = 'Tobias Diez'
@@ -65,20 +78,9 @@ publishing {
                     }
                 }
                 scm {
-                    url = 'https://github.com/tobiasdiez/EasyBind'
-                    connection = 'scm:git:git://github.com/tobiasdiez/EasyBind.git'
-                    developerConnection = 'scm:git:git@github.com/tobiasdiez/EasyBind.git'
-                }
-            }
-
-            // Remove os-specific 'classifier' in pom for JavaFX dependency
-            // Taken from https://github.com/TestFX/Monocle/issues/64#issuecomment-489215444
-            pom.withXml {
-                Node pomNode = asNode()
-                pomNode.dependencies.'*'.findAll() {
-                    it.groupId.text() == 'org.openjfx'
-                }.each {
-                    it.remove(it.classifier)
+                    url = 'https://github.com/JabRef/EasyBind'
+                    connection = 'scm:git:git://github.com/JabRef/EasyBind.git'
+                    developerConnection = 'scm:git:git@github.com/JabRef/EasyBind.git'
                 }
             }
         }
@@ -113,16 +115,17 @@ signing {
     useInMemoryPgpKeys(System.getenv("SIGNING_KEY"), System.getenv("SIGNING_PASSWORD"))
     sign publishing.publications.mavenJava
 }
-
-nexusStaging {
-    username = System.getenv("MAVEN_USERNAME")
-    password = System.getenv("MAVEN_PASSWORD")
+nexusPublishing {
+    repositories {
+        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
+            username = System.getenv("MAVEN_USERNAME")
+            password = System.getenv("MAVEN_PASSWORD")
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
 }
 
-// Don't publish snapshots to Maven Central
-closeAndReleaseRepository.onlyIf { isReleaseVersion }
-closeRepository.onlyIf { isReleaseVersion }
-releaseRepository.onlyIf { isReleaseVersion }
 
 test {
     useJUnitPlatform()
@@ -144,7 +147,7 @@ compileTestJava {
 }
 */
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     // Ignore warnings because of missing elements
     options.addStringOption('Xdoclint:all,-missing', '-quiet')
 }
