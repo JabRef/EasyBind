@@ -9,7 +9,7 @@ plugins {
 
 
 group = 'org.jabref'
-version = '1.0-SNAPSHOT'
+version = '2.2.1-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 sourceCompatibility = JavaVersion.VERSION_17
