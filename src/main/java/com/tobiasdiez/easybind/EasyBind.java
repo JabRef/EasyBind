@@ -307,13 +307,22 @@ public class EasyBind {
     /**
      * Creates a new list in which each element is converted using the provided mapping.
      * All changes to the underlying list are propagated to the converted list.
+     * If the change event indicates that an item was updated, as determined by {@link ListChangeListener.Change#wasUpdated()},
+     * the mapping function is called again to create a new object reflecting the updated value.
      * <p>
      * In contrast to {@link #map(ObservableList, Function)},
-     * the items are converted when the are inserted instead of when they are accessed.
-     * Thus the initial CPU overhead and memory consumption is higher but the access to list items is quicker.
+     * the items are converted when they are inserted instead of when they are accessed.
+     * Thus, the initial CPU overhead and memory consumption is higher but the access to list items is quicker.
      */
     public static <A, B> EasyObservableList<B> mapBacked(ObservableList<A> source, Function<A, B> mapper) {
-        return new MappedBackedList<>(source, mapper);
+        return new MappedBackedList<>(source, mapper, true);
+    }
+
+    /**
+     * Similar to {@link #mapBacked(ObservableList, Function)}, but allows specifying if the mapping should be done on update.
+     */
+    public static <A, B> EasyObservableList<B> mapBacked(ObservableList<A> source, Function<A, B> mapper, boolean mapOnUpdate) {
+        return new MappedBackedList<>(source, mapper, mapOnUpdate);
     }
 
     public static <A, B, R> EasyBinding<R> combine(ObservableValue<A> src1, ObservableValue<B> src2, BiFunction<A, B, R> f) {
