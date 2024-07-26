@@ -47,10 +47,12 @@ class MappedBackedList<E, F> extends TransformationList<E, F> implements EasyObs
                 }
                 nextPermutation(from, to, permutation);
             } else if (change.wasUpdated()) {
-                if (mapOnUpdate) {
-                    backingList.set(change.getFrom(), mapper.apply(getSource().get(change.getFrom())));
+                for (int i = change.getFrom(); i < change.getTo(); i++) {
+                    if (mapOnUpdate) {
+                        backingList.set(i, mapper.apply(getSource().get(i)));
+                    }
+                    nextUpdate(i);
                 }
-                nextUpdate(change.getFrom());
             } else {
                 if (change.wasRemoved()) {
                     int removePosition = change.getFrom();
