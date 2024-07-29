@@ -11,10 +11,12 @@ class MappedBackedList<E, F> extends TransformationList<E, F> implements EasyObs
 
     private final Function<F, E> mapper;
     private final List<E> backingList;
+    private final boolean mapOnUpdate;
 
-    public MappedBackedList(ObservableList<? extends F> sourceList, Function<F, E> mapper) {
+    public MappedBackedList(ObservableList<? extends F> sourceList, Function<F, E> mapper, boolean mapOnUpdate) {
         super(sourceList);
         this.mapper = mapper;
+        this.mapOnUpdate = mapOnUpdate;
         this.backingList = new ArrayList<>(sourceList.size());
         sourceList.stream().map(mapper).forEach(backingList::add);
     }
@@ -45,8 +47,16 @@ class MappedBackedList<E, F> extends TransformationList<E, F> implements EasyObs
                 }
                 nextPermutation(from, to, permutation);
             } else if (change.wasUpdated()) {
-                backingList.set(change.getFrom(), mapper.apply(getSource().get(change.getFrom())));
-                nextUpdate(change.getFrom());
+                if (mapOnUpdate) {
+                    for (int i = change.getFrom(); i < change.getTo(); i++) {
+                        E old = backingList.set(i, mapper.apply(getSource().get(i)));
+                        nextSet(i, old);
+                    }
+                } else {
+                    for (int i = change.getFrom(); i < change.getTo(); i++) {
+                        nextUpdate(i);
+                    }
+                }
             } else {
                 if (change.wasRemoved()) {
                     int removePosition = change.getFrom();
