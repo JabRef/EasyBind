@@ -7,7 +7,6 @@ plugins {
     id 'org.javamodularity.moduleplugin' version '1.8.15'
 }
 
-
 group = 'org.jabref'
 version = '2.2.1-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -57,18 +56,15 @@ publishing {
                     }
                 }
 
-
                 developers {
                     developer {
                         id = 'siedlerchr'
                         name = 'Christoph Schwentker'
                     }
-
                     developer {
                         id = 'koppor'
                         name = 'Oliver Kopp'
                     }
-
                     developer {
                         id = 'tobiasdiez'
                         name = 'Tobias Diez'
@@ -77,6 +73,7 @@ publishing {
                         name = 'Tomas Mikula'
                     }
                 }
+
                 scm {
                     url = 'https://github.com/JabRef/EasyBind'
                     connection = 'scm:git:git://github.com/JabRef/EasyBind.git'
@@ -92,6 +89,7 @@ signing {
     useInMemoryPgpKeys(System.getenv("SIGNING_KEY"), System.getenv("SIGNING_PASSWORD"))
     sign publishing.publications.mavenJava
 }
+
 nexusPublishing {
     repositories {
         sonatype {  //only for users registered in Sonatype after 24 Feb 2021
@@ -102,7 +100,6 @@ nexusPublishing {
         }
     }
 }
-
 
 test {
     useJUnitPlatform()
