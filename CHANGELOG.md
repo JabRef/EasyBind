@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.3.0] - 2025-07-02
 
 ### Added
 
@@ -85,7 +85,8 @@ All notable changes to this project will be documented in this file.
 
 Last official release by [Tomas Mikula](https://github.com/TomasMikula/EasyBind) under the name `org.fxmisc.easybind:easybind`.
 
-[Unreleased]: https://github.com/tobiasdiez/EasyBind/compare/v1.2.2...master
+[Unreleased]: https://github.com/JabRef/EasyBind/compare/2.3.0...main
+[2.3.0]: https://github.com/tobiasdiez/EasyBind/compare/2.2.0...2.3.0
 [2.2.0]: https://github.com/tobiasdiez/EasyBind/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/tobiasdiez/EasyBind/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/tobiasdiez/EasyBind/compare/v1.2.2...2.0.0
