@@ -47,7 +47,7 @@ publishing {
             pom {
                 name = 'EasyBind'
                 description = 'Factory methods for easy creation of JavaFX bindings using lambdas.'
-                url = 'https://github.com/tobiasdiez/EasyBind'
+                url = 'https://github.com/JabRef/EasyBind'
 
                 licenses {
                     license {
