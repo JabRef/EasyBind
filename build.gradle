@@ -7,9 +7,8 @@ plugins {
     id 'org.javamodularity.moduleplugin' version '1.8.15'
 }
 
-
 group = 'org.jabref'
-version = '2.2.1-SNAPSHOT'
+version = '2.3.0'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -47,7 +46,7 @@ publishing {
             pom {
                 name = 'EasyBind'
                 description = 'Factory methods for easy creation of JavaFX bindings using lambdas.'
-                url = 'https://github.com/tobiasdiez/EasyBind'
+                url = 'https://github.com/JabRef/EasyBind'
 
                 licenses {
                     license {
@@ -57,18 +56,15 @@ publishing {
                     }
                 }
 
-
                 developers {
                     developer {
                         id = 'siedlerchr'
                         name = 'Christoph Schwentker'
                     }
-
                     developer {
                         id = 'koppor'
                         name = 'Oliver Kopp'
                     }
-
                     developer {
                         id = 'tobiasdiez'
                         name = 'Tobias Diez'
@@ -77,6 +73,7 @@ publishing {
                         name = 'Tomas Mikula'
                     }
                 }
+
                 scm {
                     url = 'https://github.com/JabRef/EasyBind'
                     connection = 'scm:git:git://github.com/JabRef/EasyBind.git'
@@ -92,17 +89,18 @@ signing {
     useInMemoryPgpKeys(System.getenv("SIGNING_KEY"), System.getenv("SIGNING_PASSWORD"))
     sign publishing.publications.mavenJava
 }
+
 nexusPublishing {
     repositories {
-        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        // see https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#configuration
+        sonatype {
+            username = System.getenv("OSSRH_USERNAME")
+            password = System.getenv("OSSRH_TOKEN")
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 }
-
 
 test {
     useJUnitPlatform()
