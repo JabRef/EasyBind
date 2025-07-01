@@ -12,7 +12,9 @@ All notable changes to this project will be documented in this file.
 
 - Fixed an issue in `EasyBind#mapBacked` where updates to the source `ObservableList` elements were not reflected in the `SortedList`. [#5](https://github.com/JabRef/EasyBind/pull/5)
 
-### Removed
+### Fixed
+
+- Changed maven coordinates to `org.jabref` in `README.md`
 
 ## [2.2.0] - 2021-05-18
 
